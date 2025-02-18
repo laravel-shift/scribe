@@ -2,21 +2,23 @@ name: Lint
 
 on:
   push:
-    branches: [master]
+    branches:
+      - master
   pull_request:
 
 jobs:
   test:
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
-        php:
-        - 8.1
+        php: [8.1, '8.2', '8.3', '8.4']
 
     name: Lint code (PHP ${{ matrix.php }})
 
     steps:
       - uses: actions/checkout@v3
+
       - name: Setup PHP ${{ matrix.php }}
         uses: shivammathur/setup-php@v2
         with:
@@ -35,5 +37,5 @@ jobs:
 
       - name: Lint code
         env:
-          COMPOSER_MEMORY_LIMIT: "-1"
+          COMPOSER_MEMORY_LIMIT: '-1'
         run: composer lint
